@@ -1,14 +1,31 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import * as actions from "../actions/actions";
+
+const mapDispatchToProps = dispatch => ({
+  addExpense: (category, amount, description, date) =>
+    dispatch(actions.addExpense(category, amount, description, date))
+});
 
 class Expense extends Component {
   constructor(props) {
     super(props);
+    this.handleExpense = this.handleExpense.bind(this);
+  }
+  handleExpense(event) {
+    event.preventDefault();
+    const category = event.target[0].value;
+    const amount = event.target[1].value;
+    const description = event.target[2].value;
+    const date = event.target[3].value;
+    this.props.addExpense(category, amount, description, date);
+    console.log(category, amount, description, date);
   }
 
   render() {
     return (
       <div>
-        <form>
+        <form onSubmit={this.handleExpense}>
           <label>Category: </label>
           <select id="category">
             <option>Clothes</option>
@@ -23,7 +40,7 @@ class Expense extends Component {
           </select>
           <br />
           <label>Amount: </label>
-          <input type="text" placeholder="amount" />
+          <input type="number" placeholder="amount" />
           <br />
           <label>Description: </label>
           <textarea rows="2" cols="20" placeholder="note" />
@@ -37,4 +54,4 @@ class Expense extends Component {
     );
   }
 }
-export default Expense;
+export default connect(null, mapDispatchToProps)(Expense);

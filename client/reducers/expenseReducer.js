@@ -1,9 +1,9 @@
-import * as types from '../constants/actionTypes.js';
+import * as types from "../constants/actionTypes.js";
 
 const initialState = {
   totalExpenses: 0,
-  currentBalance: 0,
-  expense: [],
+  currentBalance: 10000,
+  expense: []
 };
 
 const expenseReducer = (state = initialState, action) => {
