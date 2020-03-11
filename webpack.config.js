@@ -6,7 +6,7 @@ module.exports = {
     path: path.resolve(__dirname, 'build'),
     filename: 'bundle.js',
   },
-  mode: process.env.NODE_ENV,
+  mode: 'development',
   module: {
     rules: [
       {
@@ -31,11 +31,10 @@ module.exports = {
   devServer: {
     hot: true,
     publicPath: '/build',
-    proxy: {
-      '/': 'http://localhost:3000',
-
-    },
-
+    compress: true,
+    historyApiFallback: true,
+    // proxy: {
+    //   '/': 'http://localhost:3000',
+    // },
   },
-
 };
