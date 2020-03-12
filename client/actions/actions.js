@@ -1,21 +1,19 @@
 import * as types from "../constants/actionTypes.js";
 //redux thunk
 //actions => anything sending to reducer to dispatch actions
-export const addExpense = (category, amount, description, date) => {
+export const addExpense = (category, amount, notes, userid) => {
   return dispatch => {
-    fetch("/addExpense", {
+    fetch("/expense/addExpense", {
       method: "POST",
       headers: {
         "content-type": "application/json"
       },
-      body: JSON.stringify({ category, amount, description, date })
+      body: JSON.stringify({ category, amount, notes, userid })
     })
-      .then(response => response.json())
-      .then(expense => {
+      .then(() => {
         dispatch({
           //dispatch action -> to reducer
-          type: types.ADD_EXPENSE,
-          payload: expense
+          type: types.ADD_EXPENSE
         });
       })
       .catch(err => console.log(err));
@@ -25,7 +23,7 @@ export const addExpense = (category, amount, description, date) => {
 export const addIncome = income => {
   return (dispatch, getState) => {
     const id = getState().user.currentUser.id;
-    fetch("/updateIncome", {
+    fetch("/auth/updateIncome", {
       method: "PUT",
       headers: {
         "content-type": "application/json"
@@ -46,14 +44,14 @@ export const addIncome = income => {
 };
 
 //dispatch data to reducer
-export const userSignIn = (username, password) => {
+export const userSignIn = (userName, password) => {
   return dispatch =>
-    fetch("/signup", {
+    fetch("/auth/login", {
       method: "POST",
       headers: {
         "content-type": "application/json"
       },
-      body: JSON.stringify({ username, password })
+      body: JSON.stringify({ userName, password })
     })
       .then(response => response.json())
       .then(user => {
@@ -64,4 +62,17 @@ export const userSignIn = (username, password) => {
         });
       })
       .catch(err => console.log(err));
+};
+
+export const getUserInfo = id => {
+  return dispatch => {
+    fetch(`/expense/getExpenses/${id}`)
+      .then(res => res.json())
+      .then(history => {
+        dispatch({
+          type: types.GET_HISTORY,
+          payload: history
+        });
+      });
+  };
 };

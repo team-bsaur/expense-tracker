@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import * as actions from "../actions/actions";
+import { Redirect } from "react-router-dom";
 
 const mapDispatchToProps = dispatch => ({
   addExpense: (category, amount, description, date) =>
@@ -17,9 +18,10 @@ class Expense extends Component {
     const category = event.target[0].value;
     const amount = event.target[1].value;
     const description = event.target[2].value;
-    const date = event.target[3].value;
-    this.props.addExpense(category, amount, description, date);
-    console.log(category, amount, description, date);
+    // const date = event.target[3].value;
+    this.props.addExpense(category, amount, description, 11);
+    // console.log(category, amount, description, date);
+    return <Redirect to="/dashboard/11" />;
   }
 
   render() {
@@ -45,8 +47,8 @@ class Expense extends Component {
           <label>Description: </label>
           <textarea rows="2" cols="20" placeholder="note" />
           <br />
-          <label>Date: </label>
-          <input type="date" />
+          {/* <label>Date: </label>
+          <input type="date" /> */}
           <br />
           <button>Add</button>
         </form>

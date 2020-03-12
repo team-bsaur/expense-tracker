@@ -2,10 +2,16 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import * as actions from "../actions/actions";
+import { Redirect } from "react-router-dom";
 
 const mapDispatchToProps = dispatch => ({
   userSignIn: (username, password) =>
     dispatch(actions.userSignIn(username, password))
+});
+
+const mapStateToProps = state => ({
+  isLogged: state.user.isLogged,
+  currentUser: state.user.currentUser
 });
 
 class Login extends Component {
@@ -23,6 +29,8 @@ class Login extends Component {
   }
 
   render() {
+    if (this.props.isLogged)
+      return <Redirect to={`/dashboard/${this.props.currentUser.id}`} />;
     return (
       <div>
         <form onSubmit={this.handleLogIn}>
@@ -35,4 +43,4 @@ class Login extends Component {
   }
 }
 
-export default connect(null, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
