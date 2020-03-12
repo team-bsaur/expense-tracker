@@ -47,7 +47,7 @@ app.post("/auth/signup", authController.createAccount, (req, res) => {
     userName: res.locals.userName,
     income: res.locals.income
   };
-  res.set(200).cookie('user', userName, {httpOnly: true}).send(userInfo);
+  res.set(200).cookie('user', 'token', {httpOnly: true}).send(userInfo);
 });
 
 app.post("/auth/login", authController.login, (req, res) => {
