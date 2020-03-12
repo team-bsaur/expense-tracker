@@ -1,26 +1,18 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-import * as actions from '../actions/actions';
-// implicit return
-const mapDispatchToProps = dispatch => ({
-  addExpense: () => dispatch(actions.addExpense()),
-});
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import * as actions from "../actions/actions";
 
 class Home extends Component {
   constructor(props) {
     super(props);
   }
 
-  componentDidMount() {
-    this.props.addExpense();
-  }
-
   render() {
     return (
       <div>
         <h1>Expense Tracker</h1>
-        <Link to="/signin">Sign In</Link>
+        <Link to="/signup">Sign Up</Link>
         <div>
           <Link to="/Login">Login</Link>
         </div>
@@ -29,4 +21,4 @@ class Home extends Component {
   }
 }
 
-export default connect(null, mapDispatchToProps)(Home);
+export default Home;
