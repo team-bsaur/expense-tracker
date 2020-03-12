@@ -2,7 +2,6 @@ import * as types from "../constants/actionTypes.js";
 
 const initialState = {
   totalExpenses: 0,
-  currentBalance: 10000,
   expenses: []
 };
 

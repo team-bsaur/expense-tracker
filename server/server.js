@@ -21,7 +21,7 @@ app.get(
   }
 );
 //Middleware call is to authController b/c income data is stored on accounts (user) table
-app.post("/auth/updateIncome", authController.updateIncome, (req, res) => {
+app.put("/auth/updateIncome", authController.updateIncome, (req, res) => {
   res.sendStatus(200);
 });
 
@@ -43,7 +43,7 @@ app.delete(
 app.post("/auth/signup", authController.createAccount, (req, res) => {
   // must redirect to home page
   const userInfo = {
-    id: res.locals.id,
+    id: res.locals.userID,
     userName: res.locals.userName,
     income: res.locals.income
   };

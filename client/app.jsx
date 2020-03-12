@@ -19,7 +19,7 @@ class App extends Component {
     return (
       <Router>
         <Route exact path="/" component={Home} />
-        <Route exact path="/signin" component={Signup} />
+        <Route exact path="/signup" component={Signup} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/dashboard/:id" component={Dashboard} />
         <Route exact path="/income" component={Income} />

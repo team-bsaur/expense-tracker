@@ -8,23 +8,37 @@ const mapDispatchToProps = dispatch => ({
     dispatch(actions.addExpense(category, amount, description, date))
 });
 
+const mapStateToProps = state => ({
+  currentUser: state.user.currentUser
+});
+
 class Expense extends Component {
   constructor(props) {
     super(props);
     this.handleExpense = this.handleExpense.bind(this);
+    this.state = {
+      didExpenseUpdate: false
+    };
   }
   handleExpense(event) {
     event.preventDefault();
+    const { id } = this.props.currentUser;
     const category = event.target[0].value;
     const amount = event.target[1].value;
     const description = event.target[2].value;
     // const date = event.target[3].value;
-    this.props.addExpense(category, amount, description, 11);
+    this.props.addExpense(category, amount, description, id);
+    this.setState({
+      didExpenseUpdate: true
+    });
     // console.log(category, amount, description, date);
-    return <Redirect to="/dashboard/11" />;
   }
 
   render() {
+    if (this.state.didExpenseUpdate) {
+      const { id } = this.props.currentUser;
+      return <Redirect to={`/dashboard/${id}`} />;
+    }
     return (
       <div>
         <form onSubmit={this.handleExpense}>
@@ -56,4 +70,4 @@ class Expense extends Component {
     );
   }
 }
-export default connect(null, mapDispatchToProps)(Expense);
+export default connect(mapStateToProps, mapDispatchToProps)(Expense);

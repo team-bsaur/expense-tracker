@@ -23,6 +23,7 @@ export const addExpense = (category, amount, notes, userid) => {
 export const addIncome = income => {
   return (dispatch, getState) => {
     const id = getState().user.currentUser.id;
+    console.log(id);
     fetch("/auth/updateIncome", {
       method: "PUT",
       headers: {
@@ -58,6 +59,27 @@ export const userSignIn = (userName, password) => {
         dispatch({
           //dispatch action -> to reducer
           type: types.SIGN_IN,
+          payload: user
+        });
+      })
+      .catch(err => console.log(err));
+};
+
+export const userSignup = (userName, password) => {
+  return dispatch =>
+    fetch("/auth/signup", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json"
+      },
+      body: JSON.stringify({ userName, password })
+    })
+      .then(response => response.json())
+      .then(user => {
+        console.log("user", user);
+        dispatch({
+          //dispatch action -> to reducer
+          type: types.SIGN_UP,
           payload: user
         });
       })
