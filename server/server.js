@@ -15,25 +15,25 @@ app.use(express.static(path.join(__dirname, "../assets")));
 
 app.get(
   "/expense/getExpenses/:id",
-  ExpenseController.getExpenses,
+  authController.verifyUser, ExpenseController.getExpenses,
   (req, res) => {
     res.status(200).send(res.locals.expenses);
   }
 );
 //Middleware call is to authController b/c income data is stored on accounts (user) table
-app.put("/auth/updateIncome", authController.updateIncome, (req, res) => {
+app.put("/auth/updateIncome", authController.verifyUser, authController.updateIncome, (req, res) => {
   res.sendStatus(200);
 });
 
 // route for addExpense
-app.post("/expense/addExpense", ExpenseController.addExpense, (req, res) => {
+app.post("/expense/addExpense", authController.verifyUser, ExpenseController.addExpense, (req, res) => {
   res.sendStatus(200);
 });
 
 // route for delete
 app.delete(
   "/expense/deleteExpense/:id",
-  ExpenseController.deleteExpense,
+  authController.verifyUser, ExpenseController.deleteExpense,
   (req, res) => {
     res.status(200).send(res.locals.deleted);
   }
@@ -57,7 +57,7 @@ app.post("/auth/login", authController.login, (req, res) => {
       userName: res.locals.userName,
       income: res.locals.income
     };
-    res.set(200).cookie('user', userName, {httpOnly: true}).send(userInfo);
+    res.set(200).cookie('user', 'token', {httpOnly: true}).send(userInfo);
   } else res.set(400).send(res.locals.auth);
   //Redirect to home page if res.locals.auth is true, otherwise redirect back to login; failure message?
 });

@@ -108,4 +108,11 @@ authController.updateIncome = (req, res, next) => {
   });
 };
 
+authController.verifyUser = (req, res, next) => {
+  if (req.cookies.user && req.cookies.user === 'token') {
+    res.locals.session = true;
+  } else res.locals.session = false;
+  return next();
+}
+
 module.exports = authController;
