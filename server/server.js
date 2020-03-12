@@ -1,6 +1,6 @@
 const path = require("path");
 const express = require("express");
-const cookieParser = require("cookieParser");
+const cookieParser = require("cookie-parser");
 
 const PORT = 8000;
 const app = express();
@@ -10,7 +10,7 @@ const authController = require("./authController.js");
 
 app.use(express.json());
 app.use(express.urlencoded());
-// app.use(cookieParser());
+app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "../assets")));
 
 app.get(
@@ -47,7 +47,7 @@ app.post("/auth/signup", authController.createAccount, (req, res) => {
     userName: res.locals.userName,
     income: res.locals.income
   };
-  res.set(200).send(userInfo);
+  res.set(200).cookie('user', userName, {httpOnly: true}).send(userInfo);
 });
 
 app.post("/auth/login", authController.login, (req, res) => {
@@ -57,7 +57,7 @@ app.post("/auth/login", authController.login, (req, res) => {
       userName: res.locals.userName,
       income: res.locals.income
     };
-    res.set(200).send(userInfo);
+    res.set(200).cookie('user', userName, {httpOnly: true}).send(userInfo);
   } else res.set(400).send(res.locals.auth);
   //Redirect to home page if res.locals.auth is true, otherwise redirect back to login; failure message?
 });
